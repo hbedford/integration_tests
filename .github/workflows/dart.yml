@@ -27,3 +27,8 @@ jobs:
 
       - name: Install dependencies
         run: flutter pub get
+        
+      - name: Run integration tests
+        run: |
+           flutter config --enable-unbutu-latest
+           flutter test -d ubuntu integration_test
