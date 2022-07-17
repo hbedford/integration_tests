@@ -9,4 +9,9 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text("Ola"), findsOneWidget);
   });
+  testWidgets("Testando o projeto1", (WidgetTester tester) async {
+    await tester.pumpWidget(const App());
+    await tester.pumpAndSettle();
+    expect(find.text("Olaa"), findsOneWidget);
+  });
 }
