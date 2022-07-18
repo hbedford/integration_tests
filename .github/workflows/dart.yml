@@ -7,7 +7,7 @@ name: Flutter Workflow
 
 on:
   pull_request:
-    branches: [ "main/feature/appclient/**" ]
+    branches: [ "main feature/appclient/**" ]
 
 jobs:
   build:
