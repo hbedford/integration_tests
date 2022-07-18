@@ -13,7 +13,7 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
@@ -28,10 +28,7 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
         
-      - name: Run integration tests
-        run: |
-           flutter config --enable-windows-desktop
-           flutter test -d windows integration_test
+      - run: flutter test --coverage
   # jobs:
   #   ios:
   #       # Creates a build matrix for your jobs. You can define different variations of an environment to run each job
