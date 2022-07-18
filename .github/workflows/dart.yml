@@ -3,13 +3,11 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-
 name: Flutter Workflow
 
 on:
   pull_request:
-    types: [ opened, edited, synchronize ]
-    branches: [ 'feature/appclient/*','feat/appclient/*','fix/appclient/*']
+    branches: [ "main/feature/appclient/**" ]
 
 jobs:
   build:
@@ -28,8 +26,7 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
         
-      - name: Run Tests and Integration tests
-        run: flutter test --coverage
+      - run: flutter test --coverage
   # jobs:
   #   ios:
   #       # Creates a build matrix for your jobs. You can define different variations of an environment to run each job
