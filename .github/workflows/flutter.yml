@@ -70,7 +70,7 @@ jobs:
     strategy:
       #set of different configurations of the virtual environment.
       matrix:
-        api-level: [21, 31]
+        api-level: [ 31]
         target: [default]
     
     steps:
@@ -87,6 +87,7 @@ jobs:
         
         uses: reactivecircus/android-emulator-runner@v2
         with:
+          working-directory: appclient
           api-level: ${{ matrix.api-level }}
           target: ${{ matrix.target }}
           arch: x86_64
