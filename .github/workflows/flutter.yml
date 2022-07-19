@@ -62,6 +62,7 @@ jobs:
 
 
   build:
+    working-directory: ./apps/client
     runs-on: macos-latest
     #creates a build matrix for your jobs
     strategy:
