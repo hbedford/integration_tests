@@ -61,7 +61,7 @@ jobs:
 
 
 
-  drive:
+  build:
     runs-on: macos-latest
     #creates a build matrix for your jobs
     strategy:
