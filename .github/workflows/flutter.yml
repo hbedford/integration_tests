@@ -69,7 +69,6 @@ jobs:
       matrix:
         api-level: [21, 31]
         target: [default]
-    needs: test
     
     steps:
     
