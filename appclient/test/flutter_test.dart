@@ -5,6 +5,6 @@ void main() {
     expect(true, true);
   });
   test('Teste teste', () {
-    expect(true, false);
+    expect(true, true);
   });
 }
