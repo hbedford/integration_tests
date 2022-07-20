@@ -74,7 +74,11 @@ jobs:
         target: [default]
     
     steps:
-    
+      - name: Setup Java to compile Android project
+        uses: actions/setup-java@v1
+        with:
+          java-version: '12.x'
+
       - uses: actions/checkout@v3
       # Setup a flutter environment.
       # https://github.com/marketplace/actions/flutter-action
