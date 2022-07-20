@@ -1,0 +1,157 @@
+
+name: Flutter Workflow
+
+on:
+  pull_request:
+    types: [ opened, edited, synchronize,reopened ]
+    branches: ['main']
+
+jobs:
+  # test:
+  #   runs-on: macos-latest
+  #   defaults:
+  #     run:
+  #       working-directory: ./appclient
+  #   #sequence of tasks called
+  #   steps:
+  #     - uses: actions/checkout@v1
+  #     # Setup a flutter environment.
+  #     # https://github.com/marketplace/actions/flutter-action
+  #     - uses: subosito/flutter-action@v1
+  #       with:
+  #         flutter-version: '3.0.4'
+  #         channel: 'stable'
+  #     - run: flutter pub get
+      # run static analys code
+      # - run: flutter  analyze
+
+
+  # drive_ios:
+  #   strategy:
+  #     matrix:
+  #       device:
+  #         - "iPhone 8 (13.3)"
+  #         - "iPhone 11 Pro (13.3)"
+  #     fail-fast: false
+  #   runs-on: macos-latest
+  #   needs: test
+  #   steps:
+  #     - name: List all simulators
+  #       run: xcrun instruments -s
+  #     # get UUID  simulator and boot a simulator on mac from  command line
+  #     - name: Start Simulator
+  #       run: |
+  #         UDID=$(
+  #           xcrun instruments -s |
+  #           awk \
+  #             -F ' *[][]' \
+  #             -v 'device=${{ matrix.device }}' \
+  #             '$1 == device { print $2 }'
+  #         )
+  #         xcrun simctl boot "${UDID:?No Simulator with this name found}"
+  #     - uses: actions/checkout@v1
+  #     - uses: subosito/flutter-action@v1
+  #       with:
+  #         flutter-version: '3.0.4'
+  #         channel: 'stable'
+  #     # Run flutter integrate tests
+  #     - name: Run Flutter Driver tests
+  #       run: flutter test integration_test
+
+
+
+
+  build:
+    defaults:
+      run:
+        working-directory: ./appclient
+    runs-on: macos-latest
+    #creates a build matrix for your jobs
+    strategy:
+      #set of different configurations of the virtual environment.
+      matrix:
+        api-level: [ 31]
+        target: [default]
+    
+    steps:
+      - name: Setup Java to compile Android project
+        uses: actions/setup-java@v1
+        with:
+          java-version: '12.x'
+
+      - uses: actions/checkout@v3
+      # Setup a flutter environment.
+      # https://github.com/marketplace/actions/flutter-action
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.0.4'
+          channel: 'stable'
+      - run: flutter pub get
+      - name: Run Flutter Driver tests
+        
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          working-directory: appclient
+          api-level: ${{ matrix.api-level }}
+          target: ${{ matrix.target }}
+          arch: x86_64
+          profile: Nexus 6
+          script: |
+            flutter test 
+            flutter test integration_test  
+
+# jobs:
+  
+#   drive:
+#       runs-on: macOS-latest
+#       defaults:
+#         run:
+#           working-directory: ./apps/client
+#       # Contains a sequence of tasks.
+#       steps:
+#       # A name for your step to display on GitHub.
+#         - uses: actions/checkout@v2
+#         - uses: futureware-tech/simulator-action@v1
+#           with:
+#             model: 'iPhone 8'
+#                 # Sets up a flutter environment.
+#                 # https://github.com/marketplace/actions/flutter-action
+#         # - uses: subosito/flutter-action@v1
+#         #   with:
+#         #     channel: 'stable' # or: 'dev' or 'beta'
+#         - name: Install Flutter
+#           uses: subosito/flutter-action@v2
+#           with:
+#             flutter-version: '3.0.4'
+#             channel: 'stable'
+
+#         - name: Install dependencies
+#           run: flutter pub get
+#         - name: Run Tests Integrations
+#           run: flutter test integration_test
+  # build:
+  #   runs-on: ubuntu-latest
+  #   defaults:
+  #     run:
+  #       working-directory: ./apps/client
+    
+  #   if: contains(github.head_ref, 'feature')  
+    
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v3
+
+  #     - name: Install Flutter
+  #       uses: subosito/flutter-action@v2
+  #       with:
+  #         flutter-version: '3.0.4'
+  #         channel: 'stable'
+
+  #     - name: Install dependencies
+  #       run: flutter pub get
+        
+  #     - name: Run Tests 
+  #       run: flutter test --coverage
+      
+  #     - name: Run Tests Integrations
+  #       run: flutter test integration_test
