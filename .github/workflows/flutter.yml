@@ -96,7 +96,9 @@ jobs:
           target: ${{ matrix.target }}
           arch: x86_64
           profile: Nexus 6
-          script: flutter test integration_test  
+          script: |
+            flutter test 
+            flutter test integration_test  
 
 # jobs:
   
